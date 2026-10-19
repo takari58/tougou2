@@ -70,10 +70,10 @@ spots.forEach(spot => {
 const popupContent = `
   <div style="text-align:center;">
     <h3>${spot.name}</h3>
-
     ${
       spot.image
-        ? `<img src="${spot.image}" alt="${spot.name}" style="
+        ? `<img src="${spot.image}" alt="${spot.name}"
+             style="width:200px;max-width:100%
 
   //各スポットにマーカー設置
   L.marker([spot.lat, spot.lng])
@@ -134,26 +134,22 @@ const popupContent = `
         }
       ).addTo(map);
 
-  const popupContent = answered
-    ? `
-        <div style="text-align:center;">
-          <h3>★ ${spot.name}</h3>
-          <p>回答済み</p>
-        </div>
-      `
-    : `
-        <div style="text-align:center;">
-          <h3>★ ${spot.name}</h3>
-
-          ${
-            spot.image
-              ? `${spot.image}`
-              : ""
-          }
-
-          <p>激レアスポット解放！</p>
-        </div>
-      `;
+const popupContent = answered
+  ? `
+      <div style="text-align:center;">
+        <h3>★ ${spot.name}</h3>
+        <p>回答済み</p>
+      </div>
+    `
+  : `
+      <div style="text-align:center;">
+        <h3>★ ${spot.name}</h3>
+        ${
+          spot.image
+            ? `<img src="${spot.image}" alt="${spot.name}"
+                 style=
+      </div>
+    `;
 
       marker.bindPopup(popupContent);
       spot.marker = marker;
