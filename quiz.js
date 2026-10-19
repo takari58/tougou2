@@ -1,376 +1,257 @@
-// ランドマーク到達時にゲットするポイント
-const landmarkPoints = {
-    "テスト": 100,
-
-    "新発田城跡": 480,
-    "清水園": 100,
-    "蔵春閣": 100,
-    "東公園のSL": 100,
-    "諏訪神社": 100,
-    "市役所": 100,
-    "王紋酒造": 100,
-    "五十公野公園": 480,
-    "カルチャーセンター": 100,
-    "新発田駅": 100,
-    "あやめの湯": 100,
-    "イクネスしばた": 100,
-    "市民文化会館": 100,
-    "新発田歴史図書館": 100,
-    "旧新発田市役所": 100,
-    "新潟職能短大": 100,
-    "菊水": 100,
-    "ボン・タケダ": 100,
-
-    // 激レア
-    "藤倉メンチカツや": 110,
-    "いっぷく": 110,
-    "文化洋食ino": 110,
-    "やすけカレー": 110,
-    "お食事処 蒲城": 110,
-    "コーヒーマリーナ 煉瓦屋": 110,
-    "パーラーやお屋":110
-};
-
-// ランドマークごとのクイズ(17か所×3問)
-const quizData = {
-    "テスト": [
-        { q: "テスト用/1問1200点/回答：〇", a: true,
-          explanation:"問題解説" },
-        { q: "テスト用/1問1200点/回答：×", a: false,
-          explanation:"問題解説" },
-        { q: "テスト用/1問1200点/回答：〇", a: true,
-          explanation:"問題解説" }
-    ],
-    "新発田城跡": [
-        { q: "新発田城は花の名前にちなんで別名「あやめ城」と呼ばれる", a: true,
-          explanation:"かつて新発田城周辺に湿地が多く、自生したあやめが多かったことに由来しています" },
-        { q: "新発田城の屋根には二匹のシャチホコが乗っている", a: false,
-          explanation:"三階櫓の屋根の形はT字型になっており、全国でも珍しい3匹のシャチホコが乗っています" },
-        { q: "新発田城は国の重要文化財に指定されている", a: true,
-          explanation:"「表門」と「旧二の丸隅櫓」が重要文化財に指定されています" }
-    ],
-    "清水園": [
-        { q: "清水園の中央にある大きな池は上から見ると「水」という文字をかたどっている", a: true,
-          explanation:"草書体の「水」の文字を模した複雑な池泉(ちせん)が特徴です" },
-        { q: "清水園は江戸時代初期に作られた庭園である", a: false,
-          explanation:"現在の清水園は、江戸時代中期に整備されたとされています" },
-        { q: "清水園は国の名勝に指定されている", a: true,
-          explanation:"正式名称は「旧新発田藩下屋敷清水谷御殿庭園及び五十公野(いじみの)御茶屋庭園」です" }
-    ],
-    "蔵春閣": [
-        { q: "蔵春閣はもともと新発田市に建てられた建物である。", a: false,
-          explanation:"東京の向島、隅田川沿いに建てられた大倉喜八郎の別邸です" },
-        { q: "蔵春閣には、歴代総理大臣や渋沢栄一が訪れたとされている", a: true,
-          explanation:"賓客をもてなす迎賓館として使用され、政財界の重鎮や海外の賓客が訪れました" },
-        { q: "蔵春閣は見学だけでなく、一部の部屋を借りて利用することができる", a: true,
-          explanation:"新発田観光ホームページに施設・時間ごとに使用料金が記載されています" }
-    ],
-    "東公園のSL": [
-        { q: "このSLは実際に羽越本線や信越本線で運行していた", a: true,
-          explanation:"1972年の羽越本線電化完成に伴い、運行が終了しました" },
-        { q: "このSLの名称は「D51」(デゴイチ)である", a: true,
-          explanation:"正式名称は「D51形蒸気機関車」です" },
-        { q: "現在、自由に中へ入って運転することができる", a: false,
-          explanation:"外側にフェンスが張られており、普段は中に入ることはできません、ルールを守って観賞しましょう" }
-    ],
-    "諏訪神社": [
-        { q: "五穀豊穣・無病息災・学業成就などの御利益があると言われている", a: true,
-          explanation:"主祭神は「建御名方命(たけみなかたのみこと)」、武勇や開運・農業・勝負の神と言われています" },
-        { q: "今の社殿は建立当時のまま、再建はされていない", a: false,
-          explanation:"平成13年11月5日の不審火によって消失、その後再建が行われました" },
-        { q: "諏訪神社は「おすわさま」という愛称で親しまれている", a: true,
-          explanation:"厄払いや車のお祓い、年間を通じた様々な催事で地域の人に深く愛されています" }
-    ],
-    "市役所": [
-        { q: "新発田市役所の本庁舎は10階建てである", a: false,
-          explanation:"地上7階建てです" },
-        { q: "新発田市役所の本庁舎の愛称は「ヨリネスしばた」である", a: true,
-          explanation:"「ヨリ」とは市民が立ち寄る、市民と行政の糸をより合わせた太い綱の意味、「ネス」は新発田の方言です" },
-        { q: "中心市街地の活性化のため移転が行われた", a: true,
-          explanation:"定期的にイベントを開催し、地域交流の場を設けています" }
-    ],
-    "王紋酒造": [
-        { q: "王紋酒造には、創業200年以上の伝統がある", a: true,
-          explanation:"創業時の銘柄は、諏訪神社前に位置していたことから「諏訪盛」でした" },
-        { q: "女人禁制と言われていた酒造りに女性を早くから登用した", a: true,
-          explanation:"王紋酒造ホームページには日本初の女性一級醸造技能士の方への取材文が掲載されています" },
-        { q: "酒蔵は見学することができない", a: false,
-          explanation:"五階菱では王紋酒造酒蔵見学ツアーの案内を行っています" },
-    ],
-    "五十公野公園": [
-        { q: "ダチョウを見ることができる", a: false,
-          explanation:"季節によってはカモや白鳥を見ることができます" },
-        { q: "あやめの見頃は6月である", a: true,
-          explanation:"面積1.8Haの敷地に、約300品種60万本のあやめが咲き競います" },
-        { q: "6月中旬から下旬にかけての「しばたあやめまつり」では、ライトアップや露店を楽しむことができる", a: true,
-          explanation:"あやめ園には蛍が生息しており、運が良ければ出会えるかもしれません" }
-    ],
-    "カルチャーセンター": [
-        { q: "アリーナだけでなく、剣道場や柔道場、相撲場なども利用できる", a: true,
-          explanation:"用途に合わせた施設を利用することができます" },
-        { q: "カルチャーセンターにはプールがある", a: false,
-          explanation:"プールはありません" },
-        { q: "「全国うまいもん横丁」という食に関するイベントが開催されることがある", a: true,
-          explanation:"北海道から沖縄までのうまいもんを集め販売会を行います" }
-    ],
-    "新発田駅": [
-        { q: "新発田駅の開業は1912年である", a: true,
-          explanation:"新津～新発田駅間の開通と同時に開業しました" },
-        { q: "新発田駅には0番線は存在しない", a: false,
-          explanation:"0番線は通称「盲腸線」と呼ばれる行き止まり路線です" },
-        { q: "現在の駅舎は新発田城をモチーフにしてデザインされている", a: true,
-          explanation:"2013年に黒い瓦となまこ壁を用いた和風の駅舎に生まれ変わりました" }
-    ],
-    "あやめの湯": [
-        { q: "源泉かけ流しの温泉である", a: true,
-          explanation:"湯船から二王子岳が一望できる源泉かけ流しの温泉です" },
-        { q: "あやめの湯は宿泊施設である", a: false,
-          explanation:"宿泊はできません" },
-        { q: "足湯の利用は料金がかかる", a: false,
-          explanation:"玄関前に併設されており、無料で利用することができます" }
-    ],
-    "イクネスしばた": [
-        { q: "イクネスしばたは学習・交流・図書館機能を持つ公共施設である", a: true,
-          explanation:"図書館、こどもセンター、キッチンスタジオなどの施設があり、イベントや講座も開催されています" },
-        { q: "キッチンスタジオでは定期的に料理教室が開催されている", a: true,
-          explanation:"事前申し込みはイクネスしばた公式ホームページから行うことができます" },
-        { q: "こどもセンターには休館日はない", a: false,
-          explanation:"年中無休ではありませんので、公式ページを確認する必要があります" }
-    ],
-    "市民文化会館": [
-        { q: "落語会やコンサートなどのイベントが定期的に開催されている", a: true,
-          explanation:"他にも、サイエンスライブや市民の方による講演なども行われています" },
-        { q: "市民文化会館の大ホールの座席数は約500席である", a: false,
-          explanation:"大ホールの収容人数は916人です" },
-        { q: "楽器の練習や活動に使用できる練習室がある", a: true,
-          explanation:"練習室などの使用にかかる料金は市民文化会館公式のページに記載されています" }
-    ],
-    "新発田歴史図書館": [
-        { q: "歴史関連の書籍・古文書だけでなく、浮世絵や古写真などの展示もされている", a: true,
-          explanation:"定期的に春季・冬季の通常展や企画展も開催されています" },
-        { q: "資料の貸し出しは行っていない", a: false,
-          explanation:"利用者カードを作成することで、一般図書等の資料を借りることができます" },
-        { q: "新発田市の歴史資料を収集・保存し、展示や学習を通して次世代に伝えている", a: true,
-          explanation:"新発田市の歴史や郷土について学び、歴史でコミュニティのつながりを創出します" }
-    ],
-    "旧新発田市役所": [
-        { q: "旧市役所は木造建築だった", a: false,
-          explanation:"鉄筋コンクリート造でした" },
-        { q: "旧市役所は老朽化や中心市街地の活性化のため移転した", a: true,
-          explanation:"老朽化に加え耐震性の課題から閉庁・解体されました" },
-        { q: "2017年に現在の新発田市役所へ移転した", a: true,
-          explanation:"旧庁舎跡地は現在、広場などとして整備されています" }
-    ],
-    "新潟職能短大":[
-        { q: "短大敷地内の桜の木の数は25本以上である", a: true,
-          explanation:"全部で35本あります" },
-        { q: "学外の人は学食メニューを食べることができない", a: false,
-          explanation:"学外の方も食券を購入して学食メニューを食べることができます" },
-        { q: "このアプリを作ったのは電子情報技術科の学生である", a: true,
-          explanation:"卒業研究でウェブアプリケーションの開発をしました" }
-    ],
-    "菊水": [
-        { q: "菊水酒造は明治時代に創業した酒蔵である", a: true,
-          explanation:"ちなみに、菊水の酒銘は不老長寿を謳った「菊慈童」という能楽に起源があります" },
-        { q: "菊水日本酒文化研究所は一般公開されていない", a: false,
-          explanation:"蔵での醸造工程見学と日本酒文化に触れる蔵見学を楽しむことができます" },
-        { q: "麴や酒粕を利用したスイーツやオリジナルドリンクが楽しめるカフェがある", a: true,
-          explanation:"店内からは枯山水の日本庭園を眺めることができます" }
-    ],
-     "ボン・タケダ": [
-        { q: "名物のクレープは、中にクロワッサン生地が入っている", a: true,
-          explanation:"クレープのボリュームと食感が人気です" },
-        { q: "創業10年の新しいベーカリーである", a: false,
-          explanation:"創業60年以上の老舗ベーカリーです" },
-        { q: "米粉を使ったパンが販売されています", a: true,
-          explanation:"小麦アレルギーでも安心して新潟の米粉パンを楽しむことができます" }
-    ],
-    //激レアも以下にクイズを作成
-    "藤倉メンチカツや": [
-        { q: "メンチカツ専門店である", a: false,
-          explanation:"メンチカツやとんかつ、モツ煮を楽しむことができます" },
-        { q: "当店の開業前、藤倉さんは、「ふじくら食堂」という食堂を経営していた", a: true,
-          explanation:"食堂を長男に引き継いだのを機に自宅で「藤倉メンチカツや」を開店しました" },
-        { q: "越後モチ豚のトンカツは揚げたてを食べることができる", a: true,
-          explanation:"注文をもらってから作られているため、揚げたてを持って帰ることができます" }
-    ],
-    "いっぷく": [
-        { q: "きんつばや手作りコロッケの他にもメニューがある", a: true,
-          explanation:"メンチカツ、グラタンコロッケ、手羽先などを楽しむことができる" },
-        { q: "看板商品である「手作りコロッケ」は牛肉が使われている", a: false,
-          explanation:"いっぷくのコロッケはごろごろとしたジャガイモの食感とうまみが特徴で、豚肉が使われています" },
-        { q: "きんつばのあんこは小豆を炊くところから手作りしている", a: true,
-          explanation:"あんこ好きにはたまらない逸品です" }
-    ],
-    "文化洋食ino": [
-        { q: "「ハンバーグチーズ焼きセット」は200gのハンバーグを楽しむことができる", a: false,
-          explanation:"お客さんにお腹いっぱい食べてほしいという店主の思いから350gのハンバーグを楽しめます" },
-        { q: "当店は1980年に始まったお店である", a: false,
-          explanation:"1999年に現在の店主の父が始めたお店です" },
-        { q: "家族や親戚で経営しているアットホームなお店である", a: true,
-          explanation:"現在の店主さんのご両親、妹さん、従妹の方々が働いています" }
-    ],
-    "やすけカレー": [
-        { q: "カレーは日替わりのメニューを楽しむことができる", a: true,
-          explanation:"カレーは常時3.4種類をラインナップし、定番メニューと日替わりメニューを楽しめるようになっています" },
-        { q: "一般的な両手鍋を使用して仕込みをしている", a: false,
-          explanation:"20年以上使っている中華鍋で仕込みを行っています" },
-        { q: "店内はカウンター席、テーブル席、座敷席がある", a: true,
-          explanation:"お店に入ったら注文を済ませてから空いている座席に座ります" }
-    ],
-    "お食事処 蒲城": [
-        { q: "カルチャーセンターの２階にあるお食事処である", a: true,
-          explanation:"定食や丼もの、麺類、コーヒーの他にケーキセットなどのデザートも豊富となっています" },
-        { q: "待ち合わせや小会議に利用できる", a: true,
-          explanation:"スポーツ後にゆったりとした時間を過ごすこともできます" },
-        { q: "テイクアウトはできない", a: false,
-          explanation:"お持ち帰り用メニューが用意されていますが、事前予約が必要なので公式HPをご確認ください" }
-    ],
-    "コーヒーマリーナ 煉瓦屋": [
-        { q: "店内には船をイメージしたインテリアがある", a: true,
-          explanation:"マリーナという店名に合わせて舵輪などが飾られていたり、実際に船で使われていた照明を使ったりしています" },
-        { q: "前オーナーから累算して創業50年近くになっている", a: true,
-          explanation:"前オーナーが約10年営業し、現在のオーナーが引き継いでから40年近く営業されています" },
-        { q: "店内は煉瓦の壁や赤い椅子など、懐かしさを感じさせる暖色が基調になっている", a: true,
-          explanation:"店内の内装から提供されるメニューまで「昔ながらの喫茶店」を楽しむことができます。" }
-    ],
-    "パーラーやお屋":[
-        { q: "メニュー数が多く、迫力ある見た目のクレープなどを楽しむことができる", a: true,
-          explanation:"農産物直売所が運営しているため、新鮮でおいしい果物や野菜を楽しむことができます" },
-        { q: "店内に飲食スペースは無く、テイクアウトのみとなっている", a: false,
-          explanation:"店内にはカフェスペースがあるので、その場でスイーツやオリジナルグルメを楽しむことができます" },
-        { q: "旬の果物を使ったパフェやクレープが楽しめるフェアが開催される", a: true,
-          explanation:"これまでに桃や蓬莱柿、シャインマスカットのフェアが開催されています。フェアの詳細は公式instagramをご確認ください" }
-    ]
-};
+// クイズ処理
 
 // URLからランドマーク名を取得
 const params = new URLSearchParams(window.location.search);
 const spotName = params.get("spot");
 
+
 // localStorageから回答済み地点を取得
 let answeredSpots =
     JSON.parse(localStorage.getItem("answeredSpots")) || [];
 
-// この地点をすでに回答しているか確認
-if (answeredSpots.includes(spotName)) {
-    document.querySelector(".quiz-container").style.display = "none";
-    const scoreScreen = document.getElementById("scoreScreen");
-    scoreScreen.classList.remove("hidden");
-    document.getElementById("scoreText").textContent =
-        `${spotName}のクイズはすでに回答済みです。`;
-} else {
-    startQuiz();
+
+// ========================================
+// quizData.jsonを読み込む
+// ========================================
+
+async function loadQuizData() {
+
+    try {
+
+        const response = await fetch("quizData.json");
+
+        if (!response.ok) {
+            throw new Error(
+                "quizData.jsonの読み込みに失敗しました"
+            );
+        }
+
+        const quizData = await response.json();
+
+        startQuiz(quizData);
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("quizBox").textContent =
+            "クイズデータの読み込みに失敗しました。";
+    }
 }
 
-// クイズ
-function startQuiz() {
 
-    document.getElementById("title").textContent =
-        spotName + " クイズ";
+// ========================================
+// クイズ開始
+// ========================================
 
-    const quizzes = quizData[spotName];
+function startQuiz(quizData) {
 
-    // クイズが存在しない場合
-    if (!quizzes) {
+    // URLにspotが指定されていない
+    if (!spotName) {
+
         document.getElementById("quizBox").textContent =
-            "この地点のクイズはありません。";
+            "クイズの地点が指定されていません。";
+
         return;
     }
 
+
+    // すでに回答済みか確認
+    if (answeredSpots.includes(spotName)) {
+
+        document.querySelector(".quiz-container").style.display =
+            "none";
+
+        const scoreScreen =
+            document.getElementById("scoreScreen");
+
+        scoreScreen.classList.remove("hidden");
+
+        document.getElementById("scoreText").textContent =
+            `${spotName}のクイズはすでに回答済みです。`;
+
+        return;
+    }
+
+
+    // タイトル
+    document.getElementById("title").textContent =
+        spotName + " クイズ";
+
+
+    const addedQuizData =
+        JSON.parse(
+            localStorage.getItem("addedQuizData") || "{}"
+        );
+
+    const quizzes =
+      quizData[spotName] ||
+      addedQuizData[spotName];
+
+
+    // クイズが存在しない場合
+    if (!quizzes) {
+
+        document.getElementById("quizBox").textContent =
+            "この地点のクイズはありません。";
+
+        return;
+    }
+
+
+    // ========================================
+    // クイズ用変数
+    // ========================================
+
     let index = 0;
 
-    // このクイズでの正解数
     let score = 0;
 
-    // 1問20点
+    // 1問1200点
     const POINT = 1200;
 
+
+    // ========================================
     // 問題表示
+    // ========================================
+
     function showQuiz() {
-        document.getElementById("result").textContent = "";
-        document.getElementById("explanation").textContent = "";
+
+        document.getElementById("result").textContent =
+            "";
+
+        document.getElementById("explanation").textContent =
+            "";
+
         document.getElementById("quizBox").textContent =
             quizzes[index].q;
     }
 
-    // 最初の問題を表示
+
+    // 最初の問題
     showQuiz();
 
+
+    // ========================================
     // 回答
+    // ========================================
+
     window.answer = function(userAnswer) {
 
+        // 二重クリック防止
+        const buttons =
+            document.querySelectorAll(".buttons button");
+
+        buttons.forEach(button => {
+            button.disabled = true;
+        });
+
+
         const quiz = quizzes[index];
+
         const correct = quiz.a;
+
 
         // 正解判定
         if (userAnswer === correct) {
+
             document.getElementById("result").textContent =
                 "正解！";
+
             score++;
+
         } else {
+
             document.getElementById("result").textContent =
                 "不正解…";
         }
 
+
+        // 解説表示
         document.getElementById("explanation").textContent =
             "解説： " + quiz.explanation;
+
 
         // 次の問題へ
         index++;
 
+
         if (index < quizzes.length) {
-            setTimeout(showQuiz, 1000);
+
+            setTimeout(() => {
+
+                buttons.forEach(button => {
+                    button.disabled = false;
+                });
+
+                showQuiz();
+
+            }, 1000);
+
         } else {
+
             setTimeout(showScore, 1500);
         }
     };
 
-    // スコア表示
-    function showScore() {
-      //クイズの得点
-        const quizScore = score * POINT;
-      //ランドマーク到達時の得点
-        const landmarkPoint =
-          landmarkPoints[spotName] || 0;
-      //今回の総獲得点
-        const earnedScore=quizScore + landmarkPoint;
 
-        // 合計得点を取得
+    // ========================================
+    // スコア表示
+    // ========================================
+
+    function showScore() {
+
+        // 今回の得点
+        const quizScore =
+            score * POINT;
+
+
+        // 現在の合計得点
         let totalScore =
-            Number(localStorage.getItem("totalScore")) || 0;
+            Number(
+                localStorage.getItem("totalScore")
+            ) || 0;
+
 
         // 今回の得点を加算
-        totalScore += earnedScore;
+        totalScore += quizScore;
 
-        // localStorageに保存
+
+        // 保存
         localStorage.setItem(
             "totalScore",
             totalScore
         );
 
-        // 回答済み地点として保存
+
+        // 回答済み地点に追加
         answeredSpots.push(spotName);
+
 
         localStorage.setItem(
             "answeredSpots",
             JSON.stringify(answeredSpots)
         );
 
-        // クイズ画面を消す
+
+        // クイズ画面を非表示
         document.querySelector(".quiz-container").style.display =
             "none";
 
-        // スコア画面表示
+
+        // スコア画面を表示
         document.getElementById("scoreScreen")
             .classList.remove("hidden");
 
-    // 結果表示
-    document.getElementById("scoreText").innerHTML = `
-        ${quizzes.length}問中 ${score}問正解<br>
-        クイズ得点：${quizScore}点<br>
-        ランドマークボーナス：${landmarkPoint}点<br>
-        <strong>今回の獲得得点：${earnedScore}点</strong>
-    `;
+
+        document.getElementById("scoreText").textContent =
+            `${quizzes.length}問中 ${score}問正解（今回 ${quizScore}点）`;
     }
 }
+
+
+// ========================================
+// JSON読み込み開始
+// ========================================
+
+loadQuizData();
