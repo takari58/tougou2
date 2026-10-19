@@ -1,0 +1,76 @@
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>新発田観光マップ</title>
+
+<!-- Leaflet CSS -->
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
+<link
+    rel="stylesheet"
+    href="style-root.css"
+>
+<header>
+    <h1>新発田観光マップ</h1>
+</header>
+
+<!-- ジャンルフィルター -->
+<div id="categories">
+    <button class="category-btn active" data-category="all">すべて</button>
+    <button class="category-btn" data-category="観光">🏯 観光</button>
+    <!-- <button class="category-btn" data-category="神社・寺">⛩ 神社・寺</button> -->
+    <button class="category-btn" data-category="グルメ">🍴 グルメ</button>
+    <button class="category-btn" data-category="交通">🚉 交通</button>
+    <button class="category-btn" data-category="公共施設">🏛 公共施設</button>
+    <!-- <button class="category-btn" data-category="温泉">♨️ 温泉</button> -->
+</div>
+
+<!-- 情報表示 -->
+<div id="info">
+    地図上のピンをタップしてください。
+</div>
+
+<!-- 地図 -->
+<div id="map"></div>
+
+<!-- 現在地ボタン -->
+<button id="locationButton">
+    ◎
+</button>
+
+<!-- 凡例 今は非表示 いらない気がする
+<div id="legend">
+    <div class="legend-title"> ジャンル</div>
+
+    <div class="legend-item">
+        <span class="legend-icon tourist">🏯</span>観光</div>
+
+    <div class="legend-item">
+        <span class="legend-icon temple">⛩</span> 神社・寺</div>
+
+    <div class="legend-item">
+        <span class="legend-icon food">🍴</span>グルメ</div>
+
+    <div class="legend-item">
+        <span class="legend-icon transport">🚉</span>交通</div>
+
+    <div class="legend-item">
+        <span class="legend-icon public">🏛</span>公共施設</div>
+
+    <div class="legend-item">
+        <span class="legend-icon hot-spring">♨️</span>温泉</div>  -->
+
+</div>
+
+<!-- Leaflet -->
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+<script src="script-root.js"></script>
