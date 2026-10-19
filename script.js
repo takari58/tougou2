@@ -70,7 +70,7 @@ spots.forEach(spot => {
 const popupContent = `
   <div>
     <h3>${spot.name}</h3>
-    ${spot.image}
+    <img srcmage}
   </div>
 `;
 
