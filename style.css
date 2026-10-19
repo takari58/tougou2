@@ -79,126 +79,87 @@ header h1{
     background-color: #333;
 }
 
-.leaflet-popup-content {
-    width: 220px !important;
-    text-align: center;
-}
-
-.leaflet-popup-content h3 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-}
-
-.spot-image {
-    width: 200px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-}
-
-.leaflet-popup-content p {
-    margin-top: 8px;
-}
-
-/* クイズ案内カード */
-.quiz-notice {
-    width: calc(100% - 40px);
-    max-width: 500px;
-    margin: 15px auto;
-    padding: 20px;
-    box-sizing: border-box;
-
-    background: linear-gradient(135deg, #fff8df, #fff2b8);
-    border: 2px solid #f5b942;
-    border-radius: 18px;
-
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-
-    animation: popIn 0.4s ease;
-}
-
-.quiz-notice .arrival {
-    font-size: 16px;
-    font-weight: bold;
-    color: #e58a00;
-    margin-bottom: 8px;
-}
-
-.quiz-notice .spot-name {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin: 8px 0 12px;
-}
-
-.quiz-notice .message {
-    font-size: 15px;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.quiz-button {
-    display: inline-block;
-    padding: 13px 28px;
-
-    background: #ff9f1c;
-    color: white;
-
-    font-size: 17px;
-    font-weight: bold;
-    text-decoration: none;
-
-    border-radius: 30px;
-
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-
-    transition: 0.2s;
-}
-
-.quiz-button:hover {
-    background: #f28705;
-    transform: translateY(-2px);
-}
-
-.rare-notice {
-    background: linear-gradient(135deg, #fff7c2, #ffe27a);
-    border: 3px solid #f5b400;
-
-    box-shadow:
-        0 0 10px rgba(255, 193, 7, 0.5),
-        0 5px 20px rgba(0,0,0,0.18);
-}
-
-.rare-notice .arrival {
-    color: #d88a00;
-    font-size: 18px;
-}
-
-.rare-button {
-    background: linear-gradient(135deg, #ffb300, #ff8c00);
-}
-
-
-@keyframes popIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-
-
 @media screen and (max-width:768px){
 
     header h1{
         font-size:24px;
     }
+}
+
+#addSpotArea {
+    margin: 12px;
+    text-align: center;
+}
+
+#openAddForm {
+    padding: 12px 20px;
+    background: #26734d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#addSpotForm {
+    margin: 12px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: #fff;
+}
+
+#addSpotForm[hidden],
+#rareSettings[hidden] {
+    display: none;
+}
+
+#spotForm label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+#spotForm input,
+#spotForm select,
+#spotForm textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 9px;
+    margin-top: 5px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#spotForm textarea {
+    min-height: 65px;
+    resize: vertical;
+}
+
+#spotForm button {
+    margin-top: 16px;
+    margin-right: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+}
+
+#addSpotMessage {
+    color: #26734d;
+    font-weight: bold;
+}
+
+#deleteAddedSpotsButton {
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#deleteAddedSpotsButton:hover {
+  background-color: #333;
 }
