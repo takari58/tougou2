@@ -70,13 +70,10 @@ spots.forEach(spot => {
 const popupContent = `
   <div style="text-align:center;">
     <h3>${spot.name}</h3>
+
     ${
       spot.image
-        ? `${spot.image}`
-        : ""
-    }
-  </div>
-`;
+        ? `<img src="${spot.image}" alt="${spot.name}" style="
 
   //各スポットにマーカー設置
   L.marker([spot.lat, spot.lng])
