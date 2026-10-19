@@ -67,14 +67,17 @@ function initializeMap(spots, spots2) {
  //通常スポット表示
 spots.forEach(spot => {
 
-const popupContent = `
-  <div style="text-align:center;">
-    <h3>${spot.name}</h3>
-    ${
-      spot.image
-        ? `<img src="${spot.image}" alt="${spot.name}"
-             style="width:200px;max-width:100%
+  const popupContent = `
+    <div style="text-align:center;">
+      <h3>${spot.name}</h3>
 
+      ${
+        spot.image
+          ? `<img src="${spot.image}"
+                  alt="${spot.name}"
+                  style="width:.addTo(map)
+    .bindPopup(popupContent);
+    
   //各スポットにマーカー設置
   L.marker([spot.lat, spot.lng])
     .addTo(map)
@@ -144,10 +147,14 @@ const popupContent = answered
   : `
       <div style="text-align:center;">
         <h3>★ ${spot.name}</h3>
+
         ${
           spot.image
-            ? `<img src="${spot.image}" alt="${spot.name}"
-                 style=
+            ? `<img src="${spot.image}"
+      
+        }
+
+        <p>激レアスポット解放！</p>
       </div>
     `;
 
