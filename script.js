@@ -68,9 +68,13 @@ function initializeMap(spots, spots2) {
 spots.forEach(spot => {
 
 const popupContent = `
-  <div>
+  <div style="text-align:center;">
     <h3>${spot.name}</h3>
-    <img srcmage}
+    ${
+      spot.image
+        ? `${spot.image}`
+        : ""
+    }
   </div>
 `;
 
